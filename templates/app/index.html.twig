@@ -1,0 +1,95 @@
+{% extends 'base_public.html.twig' %}
+
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <main>
+        {% if articleALaUne %}
+        <div class="card horizontal-card featured-card">
+            <div class="card-img-container">
+                <img src="{{ asset(articleALaUne.photo ? 'images/photos/' ~ articleALaUne.photo : 'images/photos/placeholder.jpg') }}" alt="{{ articleALaUne.titre }}">
+            </div>
+
+            <div class="card-content">
+                <span class="badge">{{ articleALaUne.categorie.libelle }}</span>
+                <h2>{{ articleALaUne.titre }}</h2>
+                
+                <div class="meta">
+                    <small>{{ articleALaUne.auteur.pseudo }}</small> •
+                    <small>{{ articleALaUne.dateModif ? articleALaUne.dateModif|date('d/m/Y') : articleALaUne.dateCrea|date('d/m/Y') }}</small>
+                </div>
+
+                <p class="chapeau">
+                    {{ articleALaUne.chapeau|length > 250 ? articleALaUne.chapeau|slice(0, 250) ~ '...' : articleALaUne.chapeau }}
+                </p>
+
+                <a class="read-more" href="{{ path('article_show', {id: articleALaUne.id}) }}">
+                    Lire la suite {{ ux_icon('tabler:arrow-big-right',{class: "icone-symfony"}) }}
+                </a>
+
+                <div class="stats">
+                    <span>{{ ux_icon('tabler:message-circle',{class: "icone-symfony"}) }} {{ articleALaUne.commentaires|length }}</span>
+                    <span>
+                        {% if articleALaUne.isLikedByUser(app.user) %}
+                            {{ ux_icon('ph:heart-fill',{class: "icone-symfony"}) }} {{ articleALaUne.likes|length }}
+                        {% else %}
+                            {{ ux_icon('tabler:heart',{class: "icone-symfony"}) }} {{ articleALaUne.likes|length }}
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="nouveau">
+            <h3>Dernières parutions</h3>
+            <div class="cards">
+                {% for article in articles %}
+                    <div class="card horizontal-card">
+                        
+                            <div class="card-img-container">
+                                <img src="{{ asset(article.photo ? 'images/photos/' ~ article.photo : 'images/photos/placeholder.jpg') }}" alt="{{ article.titre }}">
+                            </div>
+                        
+                        <div class="card-content">
+                            <span class="badge">{{ article.categorie.libelle }}</span>
+                            <h5>{{ article.titre }}</h5>
+                            
+                            <div class="meta">
+                                <small>{{ article.auteur.pseudo }}</small> •
+                                <small>{{ article.dateModif ? article.dateModif|date('d/m/Y') : article.dateCrea|date('d/m/Y') }}</small>
+                            </div>
+
+                            <p class="chapeau">
+                                {{ article.chapeau|length > 150 ? article.chapeau|slice(0, 85) ~ '...' : article.chapeau }}
+                            </p>
+
+                            <a class="read-more" href="{{ path('article_show', {id: article.id}) }}">
+                                Lire la suite {{ ux_icon('tabler:arrow-big-right',{class: "icone-symfony"}) }}
+                            </a>
+
+                            <div class="stats">
+                                <span>{{ ux_icon('tabler:message-circle',{class: "icone-symfony"}) }} {{ article.commentaires|length }}</span>
+                                <span>{% if article.isLikedByUser(app.user) %}
+                                        {{ ux_icon('ph:heart-fill',{class: "icone-symfony"}) }} {{ article.likes|length }}
+                                    {% else %}
+                                        {{ ux_icon('tabler:heart',{class: "icone-symfony"}) }} {{ article.likes|length }}
+                                    {% endif %}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p>Aucun article publié pour le moment.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </main>
+</body>
+</html>
+{% endblock %}

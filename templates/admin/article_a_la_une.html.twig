@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article à la une{% endblock %}
+
+{% block body %}
+    <h1>Choisir l'article à la une</h1>
+
+    {% if articleALaUne %}
+        <p>Actuellement à la une : <strong>{{ articleALaUne.article.titre }}</strong></p>
+    {% else %}
+        <p>Aucun article n'est actuellement à la une.</p>
+    {% endif %}
+
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for article in articles %}
+            <tr>
+                <td>{{ article.titre }}</td>
+                <td>{{ article.dateCrea|date('d/m/Y') }}</td>
+                <td>
+                    <a href="{{ path('admin_set_article_une', {id: article.id}) }}">Mettre à la une</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

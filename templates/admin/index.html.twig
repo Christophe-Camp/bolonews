@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+{% if is_granted('ROLE_ADMIN') %}
+<nav class="admin-menu">
+    <ul>
+        <li><a href="{{ path('admin_articelUne') }}">Article a la une</a></li>
+        <li><a href="{{ path('admin_articles') }}">Gestion des articles</a></li>
+        <li><a href="{{ path('admin_categories') }}">Gestion des catégories</a></li>
+        <li><a href="{{ path('admin_users') }}">Gestion des utilisateurs</a></li>
+    </ul>
+</nav>
+{% endif %}
+
+{% endblock %}

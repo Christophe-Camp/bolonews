@@ -1,0 +1,61 @@
+{% extends 'base_public.html.twig' %}
+
+{% block title %}{{ article.titre }}{% endblock %}
+
+{% block body %}
+<section class="article-show">
+    <h1>{{ article.titre }}</h1>
+
+    <p class="meta">
+        Par {{ article.auteur.pseudo }}
+        Publié le {{ article.dateCrea|date('d/m/Y') }}
+    </p>
+
+    {% if article.chapeau %}
+        <h3 class="chapeau">{{ article.chapeau }}</h3>
+    {% endif %}
+
+    <div class="contenu">
+        {{ article.texte|raw }}
+    </div>
+
+    <hr>
+</section>
+<section>
+    <h2>Commentaires :</h2>
+{% for commentaire in article.commentaires %}
+    <div>
+        <strong>{{ commentaire.auteur.pseudo }}</strong>
+        <small>le {{ commentaire.datePublication|date('d/m/Y H:i') }}</small>
+        <p>{{ commentaire.texte }}</p>
+    </div>
+{% else %}
+    <p>Aucun commentaire pour l’instant.</p>
+{% endfor %}
+<div>
+    {% if app.user %}
+    <a href="{{ path('article_like', {id: article.id}) }}" class="btn btn-primary">
+        {% if article.isLikedByUser(app.user) %}
+            {{ ux_icon('ph:heart-fill',{class: "icone-symfony"}) }} {{ article.likes|length }}
+        {% else %}
+            {{ ux_icon('tabler:heart',{class: "icone-symfony"}) }} {{ article.likes|length }}
+        {% endif %}
+    </a>
+{% else %}
+    <p><em>Connectez-vous pour liker cet article.</em></p>
+{% endif %}
+</div>
+
+<hr>
+
+{% if commentaire_form %}
+    {{ form_start(commentaire_form) }}
+        {{ form_widget(commentaire_form) }}
+        <button class="btn btn-primary">Poster</button>
+    {{ form_end(commentaire_form) }}
+{% else %}
+    <p><a href="{{ path('app_login') }}">Connectez-vous</a> pour commenter cet article.</p>
+{% endif %}
+
+</section>
+{% endblock %}

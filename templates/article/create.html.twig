@@ -1,0 +1,21 @@
+{% extends 'base_public.html.twig' %}
+
+
+{% block body %}
+
+
+<div class="example-wrapper">
+    <h1>Formulaire de creation d'article</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.chapeau) }}
+    {{ form_row(form.texte) }}
+    {{ form_row(form.categorie) }}
+    {{ form_row(form.photo) }}
+    {{ form_row(form.publier) }}
+
+    <button class="btn btn-primary">Enregistrer</button>
+{{ form_end(form) }}
+    
+</div>
+{% endblock %}

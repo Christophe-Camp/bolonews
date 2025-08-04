@@ -1,0 +1,27 @@
+{% extends 'base_public.html.twig' %}
+
+{% block title %}Modifier l'article{% endblock %}
+
+{% block body %}
+<h1>Modifier l'article : {{ article.titre }}</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.titre) }}
+    {{ form_row(form.chapeau) }}
+    {{ form_row(form.texte) }}
+        {# Affiche la photo actuelle si elle existe #}
+    {% if article.photo %}
+        <div>
+            <p>Photo actuelle :</p>
+            <img src="{{ asset('images/photos/' ~ article.photo) }}" alt="Photo actuelle" style="max-width:200px;">
+        </div>
+    {% endif %}
+
+    {{ form_row(form.photo) }}
+
+    {{ form_row(form.publier) }}
+    {{ form_row(form.categorie) }}
+
+    <button class="btn btn-primary">Enregistrer</button>
+{{ form_end(form) }}
+{% endblock %}

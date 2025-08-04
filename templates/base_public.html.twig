@@ -9,7 +9,7 @@
         {% endblock %}
 
         {% block javascripts %}
-            <link rel="stylesheet" href="{{ asset('javascript/script.js') }}">
+            
         {% endblock %}
     </head>
     <body>
@@ -40,18 +40,6 @@
             <section class="hero-banner">
                 <h1>Bolonews</h1>
                 <p>Les meilleurs sauces pour les pâtes et de l"actualité sur le grill</p>
-            </section>
-            <section>
-                {% if is_granted('ROLE_ADMIN') %}
-<nav class="admin-menu">
-    <ul>
-        <li><a href="{{ path('admin_article_une') }}">Article à la une</a></li>
-        <li><a href="{{ path('admin_articles') }}">Gestion des articles</a></li>
-        <li><a href="{{ path('admin_categories') }}">Gestion des catégories</a></li>
-        <li><a href="{{ path('admin_users') }}">Gestion des utilisateurs</a></li>
-    </ul>
-</nav>
-{% endif %}
             </section>
             {% block body %}
             
